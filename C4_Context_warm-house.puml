@@ -1,0 +1,21 @@
+@startuml
+!include C4_Diagrams/C4_Context.puml
+title "C4 context diagrams: Тёплый дом"
+
+LAYOUT_TOP_DOWN()
+'LAYOUT_AS_SKETCH()
+
+Person(user, "User", "Пользователь")
+System(smart_house_system, "Smart house System ", "Система управления умным домом")
+
+System_Boundary(house, "Дом") {
+    System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
+    System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
+}
+
+Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
+Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
+Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+
+'SHOW_LEGEND()
+@enduml
