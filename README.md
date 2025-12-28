@@ -59,7 +59,7 @@
 
 ### 5. Визуализация контекста системы — диаграмма С4
 
-[C4_Context Diagram: Warm house.puml](C4_Context_warm-house.puml)
+[C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
 
 ## Задание 2. Проектирование микросервисной архитектуры
 
