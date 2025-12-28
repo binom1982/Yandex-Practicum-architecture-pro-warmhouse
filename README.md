@@ -61,6 +61,14 @@
 
 [C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
 
+```plantuml
+!include C4_Diagrams/C4_Context_warm-house.puml
+```
+
+```plantuml ::include{file=C4_Diagrams/C4_Context_warm-house.puml}
+```
+
+
 ## Задание 2. Проектирование микросервисной архитектуры
 
 В этом задании вам нужно предоставить только диаграммы в модели C4. Мы не просим вас отдельно описывать получившиеся микросервисы и то, как вы определили взаимодействия между компонентами To-Be системы. Если вы правильно подготовите диаграммы C4, они и так это покажут.

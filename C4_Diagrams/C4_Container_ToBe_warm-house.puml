@@ -1,0 +1,40 @@
+@startuml
+!include Templates/C4_Container.puml
+title "Container diagrams: Тёплый дом"
+
+LAYOUT_TOP_DOWN()
+
+
+Person(user, "User", "Пользователь")
+
+System_Boundary(smart_house_system, "Smart house System") {
+    Container(web_app, "Web Application", "", "Delivers the static content and the Internet banking SPA")
+    ContainerDb(database, "Database", "PostgreSQL", "Хранит информацию о пользователя, домах, датчиках и тд.")
+    Container(backend_api, "API Application", "Go, Docker Container", "Provides Internet banking functionality via API")
+    
+    ' System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
+    ' System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
+}
+
+'System(smart_house_system, "Smart house System ", "Система управления умным домом")
+
+' System_Boundary(house, "Дом") {
+'     System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
+'     System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
+' }
+
+' Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
+' Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
+' Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+
+
+' - **Домен: &laquo;Управление пользователями&raquo;**
+'   - контекст: управление пользователями
+' - **Домен: &laquo;Управление домами&raquo;**
+'   - контекст: управление домами
+' - **Домен: &laquo;Умный дом&raquo;**
+'   - контекст: управление пользователями и домами
+'   - контекст: включение/выключение отопления в доме
+'   - контекст: просмотр температуры в доме
+
+@enduml

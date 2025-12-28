@@ -1,6 +1,6 @@
 @startuml
 !include Templates/C4_Context.puml
-title "C4 context diagrams: Тёплый дом"
+title "Context diagrams: Тёплый дом"
 
 LAYOUT_TOP_DOWN()
 'LAYOUT_AS_SKETCH()
