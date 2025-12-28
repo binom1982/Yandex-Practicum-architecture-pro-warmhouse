@@ -62,10 +62,14 @@
 [C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
 
 ```plantuml
+@startuml
 !include C4_Diagrams/C4_Context_warm-house.puml
+@enduml
 ```
 
 ```plantuml ::include{file=C4_Diagrams/C4_Context_warm-house.puml}
+@startuml
+@enduml
 ```
 
 
