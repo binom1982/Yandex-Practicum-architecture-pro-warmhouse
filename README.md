@@ -37,7 +37,7 @@
 - **Взаимодействие:** Синхронное, запросы обрабатываются последовательно.
 - **Маштабируемость:** Ограничена, так как монолит сложно маштабировать по частям.
 - **Развертывание:** Требует остановки всего приложения.
-  
+
 ### 3. Определение доменов и границы контекстов
 
 - **Домен: &laquo;Управление пользователями&raquo;**
@@ -61,17 +61,29 @@
 
 [C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
 
+![C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
+
+
 ```plantuml
 @startuml
-!include C4_Diagrams/C4_Context_warm-house.puml
+!include C4_Diagrams/Templates/C4_Container.puml
+title "Container diagrams: Тёплый дом"
+
+LAYOUT_TOP_DOWN()
+
+
+Person(user, "User", "Пользователь")
+
+System_Boundary(smart_house_system, "Smart house System") {
+    Container(web_app, "Web Application", "", "Delivers the static content and the Internet banking SPA")
+    ContainerDb(database, "Database", "PostgreSQL", "Хранит информацию о пользователя, домах, датчиках и тд.")
+    Container(backend_api, "API Application", "Go, Docker Container", "Provides Internet banking functionality via API")
+    
+    ' System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
+    ' System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
+}
 @enduml
 ```
-
-```plantuml ::include{file=C4_Diagrams/C4_Context_warm-house.puml}
-@startuml
-@enduml
-```
-
 
 ## Задание 2. Проектирование микросервисной архитектуры
 
