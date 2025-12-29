@@ -2,13 +2,14 @@
 !include Templates/C4_Context.puml
 title "Context diagrams: Тёплый дом"
 
+SHOW_PERSON_OUTLINE()
 LAYOUT_TOP_DOWN()
 'LAYOUT_AS_SKETCH()
 
 Person(user, "User", "Пользователь")
 System(smart_house_system, "Smart house System ", "Система управления умным домом")
 
-System_Boundary(house, "Дом") {
+Boundary(house, "Дом") {
     System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
     System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
 }

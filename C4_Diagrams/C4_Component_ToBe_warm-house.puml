@@ -1,0 +1,48 @@
+@startuml
+!include Templates/C4_Component.puml
+title "Component diagrams: Тёплый дом"
+
+LAYOUT_TOP_DOWN()
+
+
+Person(user, "User", "Пользователь")
+
+Container_Boundary(api, "API Application") {
+    Component(sign, "Sign In Controller", "MVC Rest Controller", "Allows users to sign in to the internet banking system")
+    Component(accounts, "Accounts Summary Controller", "MVC Rest Controller", "Provides customers with a summary of their bank accounts")
+    Component(security, "Security Component", "Spring Bean", "Provides functionality related to singing in, changing passwords, etc.")
+    Component(mbsfacade, "Mainframe Banking System Facade", "Spring Bean", "A facade onto the mainframe banking system.")
+
+    Rel(sign, security, "Uses")
+    Rel(accounts, mbsfacade, "Uses")
+    Rel(security, db, "Read & write to", "JDBC")
+    Rel(mbsfacade, mbs, "Uses", "XML/HTTPS")
+}
+
+' Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
+' Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
+' Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+
+
+'System(smart_house_system, "Smart house System ", "Система управления умным домом")
+
+' System_Boundary(house, "Дом") {
+'     System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
+'     System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
+' }
+
+' Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
+' Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
+' Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+
+
+' - **Домен: &laquo;Управление пользователями&raquo;**
+'   - контекст: управление пользователями
+' - **Домен: &laquo;Управление домами&raquo;**
+'   - контекст: управление домами
+' - **Домен: &laquo;Умный дом&raquo;**
+'   - контекст: управление пользователями и домами
+'   - контекст: включение/выключение отопления в доме
+'   - контекст: просмотр температуры в доме
+
+@enduml

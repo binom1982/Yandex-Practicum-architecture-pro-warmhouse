@@ -44,8 +44,8 @@
   - контекст: управление пользователями
 - **Домен: &laquo;Управление домами&raquo;**
   - контекст: управление домами
-- **Домен: &laquo;Умный дом&raquo;**
-  - контекст: управление пользователями и домами
+- **Домен: &laquo;Управление устройствами&raquo;**
+  - контекст: управление умным домом (устройсвами в конкретном доме)
   - контекст: включение/выключение отопления в доме
   - контекст: просмотр температуры в доме
 
@@ -60,30 +60,6 @@
 ### 5. Визуализация контекста системы — диаграмма С4
 
 [C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
-
-![C4_Context Diagram: Warm house.puml](C4_Diagrams/C4_Context_warm-house.puml)
-
-
-```plantuml
-@startuml
-!include C4_Diagrams/Templates/C4_Container.puml
-title "Container diagrams: Тёплый дом"
-
-LAYOUT_TOP_DOWN()
-
-
-Person(user, "User", "Пользователь")
-
-System_Boundary(smart_house_system, "Smart house System") {
-    Container(web_app, "Web Application", "", "Delivers the static content and the Internet banking SPA")
-    ContainerDb(database, "Database", "PostgreSQL", "Хранит информацию о пользователя, домах, датчиках и тд.")
-    Container(backend_api, "API Application", "Go, Docker Container", "Provides Internet banking functionality via API")
-    
-    ' System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
-    ' System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
-}
-@enduml
-```
 
 ## Задание 2. Проектирование микросервисной архитектуры
 

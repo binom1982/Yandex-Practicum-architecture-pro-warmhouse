@@ -1,39 +1,73 @@
 @startuml
+!theme C4_sandstone from <C4/themes>
+
 !include Templates/C4_Container.puml
 title "Container diagrams: Тёплый дом"
 
-LAYOUT_TOP_DOWN()
+SHOW_PERSON_OUTLINE()
+LAYOUT_LANDSCAPE()
+' LAYOUT_TOP_DOWN()
+' LAYOUT_AS_SKETCH()
+
+
 
 
 Person(user, "User", "Пользователь")
 
-System_Boundary(smart_house_system, "Smart house System") {
-    Container(web_app, "Web Application", "", "Delivers the static content and the Internet banking SPA")
-    ContainerDb(database, "Database", "PostgreSQL", "Хранит информацию о пользователя, домах, датчиках и тд.")
-    Container(backend_api, "API Application", "Go, Docker Container", "Provides Internet banking functionality via API")
+Enterprise_Boundary(smart_house_system, "Домен: Умный дом") {
+
+    Container(web_app, "Web Application", "", "Веб-приложение")
+
+    System_Boundary(subdomen_device_management, "Подомен: Управление устройствами") {
+        Container_Boundary(context_device_management, "Контекст: Управление устройствами") {  
+            Container(device_management_api_service, "API Application", "Go", "Предоставляет функции через API")
+            ContainerDb(device_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+            SystemQueue(device_management_message_queue, "API Application", "Очередь для высоконагруженных систем и потоковой обработки событий", "Apache Kafka")
+           
+            Rel(device_management_api_service, device_management_database_service, "Читает и записывает")
+        }    
+    }
     
-    ' System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
-    ' System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
+    System_Boundary(subdomen_user_management, "Подомен: Управление пользователями") {
+        Container_Boundary(context_user_management, "Контекст: Управление пользователями") {
+            Container(user_management_api_service, "API Application", "Go", "Предоставляет функции через API")
+            ContainerDb(user_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+
+            Rel(user_management_api_service, user_management_database_service, "Читает и записывает")
+        }
+        
+    }
+
+    System_Boundary(subdomen_house_management, "Подомен: Управление домами") {
+        Container_Boundary(context_house_management, "Контекст: Управление домами") {
+            Container(house_management_api_service, "API Application", "Go", "Предоставляет функции через API")
+            ContainerDb(house_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+
+            Rel(house_management_api_service, house_management_database_service, "Читает и записывает")
+        }
+        
+    }
+
+    Rel(user, web_app, "Использует")
+    Rel(web_app, device_management_api_service, "Использует")
+    Rel(web_app, user_management_api_service, "Использует")
+    Rel(web_app, house_management_api_service, "Использует")
+
+   
 }
 
-'System(smart_house_system, "Smart house System ", "Система управления умным домом")
+Boundary(house, "Дом") {
+    System_Ext(home_device_management_api_service, "Сервис управления устройствами в доме", "Предоставляет функции через API")
+}
 
-' System_Boundary(house, "Дом") {
-'     System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
-'     System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
-' }
-
-' Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
-' Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
-' Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
-
+Rel(device_management_api_service, home_device_management_api_service, "Управляет устройствами в доме")
 
 ' - **Домен: &laquo;Управление пользователями&raquo;**
 '   - контекст: управление пользователями
 ' - **Домен: &laquo;Управление домами&raquo;**
 '   - контекст: управление домами
-' - **Домен: &laquo;Умный дом&raquo;**
-'   - контекст: управление пользователями и домами
+' - **Домен: &laquo;Управление устройствами&raquo;**
+'   - контекст: управление умным домом (устройсвами в конкретном доме)
 '   - контекст: включение/выключение отопления в доме
 '   - контекст: просмотр температуры в доме
 
