@@ -1,39 +1,60 @@
 @startuml
+!theme C4_sandstone from <C4/themes>
 !include Templates/C4_Component.puml
 title "Component diagrams: Тёплый дом"
 
-LAYOUT_TOP_DOWN()
-
+SHOW_PERSON_OUTLINE()
+LAYOUT_LANDSCAPE()
 
 Person(user, "User", "Пользователь")
 
-Container_Boundary(api, "API Application") {
-    Component(sign, "Sign In Controller", "MVC Rest Controller", "Allows users to sign in to the internet banking system")
-    Component(accounts, "Accounts Summary Controller", "MVC Rest Controller", "Provides customers with a summary of their bank accounts")
-    Component(security, "Security Component", "Spring Bean", "Provides functionality related to singing in, changing passwords, etc.")
-    Component(mbsfacade, "Mainframe Banking System Facade", "Spring Bean", "A facade onto the mainframe banking system.")
+Enterprise_Boundary(smart_house_system, "Домен: Умный дом") {
 
-    Rel(sign, security, "Uses")
-    Rel(accounts, mbsfacade, "Uses")
-    Rel(security, db, "Read & write to", "JDBC")
-    Rel(mbsfacade, mbs, "Uses", "XML/HTTPS")
+    Container(web_app, "Web Application", "", "Веб-приложение")
+    
+    System_Boundary(subdomen_device_management, "Подомен: Управление устройствами") {
+        Container_Boundary(context_device_management, "Контекст (микросервис): Управление устройствами") {  
+            Component(device_management_controller, "Api Controller", "Go", "Контроллер")
+            Component(device_management_service, "Device management Service", "Go", "Управляет устройствами")
+            
+            Component(command_handler_service, "Command handler Service", "Go", "Обрабатывает команды")
+            Component(device_status_manager_service, "Device status manager Service", "Go", "Менеджер состояния устройств")
+
+        }    
+             
+        ContainerDb(device_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+        SystemQueue(device_management_message_queue, "API Application", "Очередь для высоконагруженных систем и потоковой обработки событий", "Apache Kafka")
+        
+        Rel(device_management_controller, device_management_service, "Использует")
+        Rel(device_management_service, device_management_database_service, "Читает и записывает")
+    }
+    
+
+    System_Boundary(subdomen_user_management, "Подомен: Управление пользователями") {
+        Container(user_management_api_application, "API Application", "Go", "Предоставляет функции через API")
+        ContainerDb(user_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+
+        Rel(user_management_api_application, user_management_database_service, "Читает и записывает")
+    }
+
+    System_Boundary(subdomen_house_management, "Подомен: Управление домами") {
+        Container(house_management_api_application, "API Application", "Go", "Предоставляет функции через API")
+        ContainerDb(house_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+
+        Rel(house_management_api_application, house_management_database_service, "Читает и записывает")
+    }
+
+    Rel(user, web_app, "Использует")
+    Rel(web_app, device_management_controller, "Использует")
+    Rel(web_app, user_management_api_application, "Использует")
+    Rel(web_app, house_management_api_application, "Использует")
 }
 
-' Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
-' Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
-' Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+Boundary(house, "Дом") {
+    System_Ext(home_device_management_api_application, "Сервис управления устройствами в доме", "Предоставляет функции через API")
+}
 
-
-'System(smart_house_system, "Smart house System ", "Система управления умным домом")
-
-' System_Boundary(house, "Дом") {
-'     System_Ext(heating_sensor_api, "Heating sensor API", "Внешний API для управления датчиком отопления",)
-'     System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
-' }
-
-' Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
-' Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
-' Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+Rel(context_device_management, home_device_management_api_application, "Управляет устройствами в доме")
 
 
 ' - **Домен: &laquo;Управление пользователями&raquo;**

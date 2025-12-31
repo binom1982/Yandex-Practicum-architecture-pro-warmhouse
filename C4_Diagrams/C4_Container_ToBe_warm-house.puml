@@ -1,6 +1,5 @@
 @startuml
 !theme C4_sandstone from <C4/themes>
-
 !include Templates/C4_Container.puml
 title "Container diagrams: Тёплый дом"
 
@@ -9,9 +8,6 @@ LAYOUT_LANDSCAPE()
 ' LAYOUT_TOP_DOWN()
 ' LAYOUT_AS_SKETCH()
 
-
-
-
 Person(user, "User", "Пользователь")
 
 Enterprise_Boundary(smart_house_system, "Домен: Умный дом") {
@@ -19,56 +15,43 @@ Enterprise_Boundary(smart_house_system, "Домен: Умный дом") {
     Container(web_app, "Web Application", "", "Веб-приложение")
 
     System_Boundary(subdomen_device_management, "Подомен: Управление устройствами") {
-        Container_Boundary(context_device_management, "Контекст: Управление устройствами") {  
-            Container(device_management_api_service, "API Application", "Go", "Предоставляет функции через API")
+        ' Container_Boundary(context_device_management, "Контекст (микросервис): Управление устройствами") {  
+            Container(device_management_api_application, "API Application", "Go", "Предоставляет функции через API")
             ContainerDb(device_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
             SystemQueue(device_management_message_queue, "API Application", "Очередь для высоконагруженных систем и потоковой обработки событий", "Apache Kafka")
            
-            Rel(device_management_api_service, device_management_database_service, "Читает и записывает")
-        }    
+            Rel(device_management_api_application, device_management_database_service, "Читает и записывает")
+        ' }    
     }
     
     System_Boundary(subdomen_user_management, "Подомен: Управление пользователями") {
-        Container_Boundary(context_user_management, "Контекст: Управление пользователями") {
-            Container(user_management_api_service, "API Application", "Go", "Предоставляет функции через API")
+        ' Container_Boundary(context_user_management, "Контекст (микросервис): Управление пользователями") {
+            Container(user_management_api_application, "API Application", "Go", "Предоставляет функции через API")
             ContainerDb(user_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
 
-            Rel(user_management_api_service, user_management_database_service, "Читает и записывает")
-        }
-        
+            Rel(user_management_api_application, user_management_database_service, "Читает и записывает")
+        ' }
     }
 
     System_Boundary(subdomen_house_management, "Подомен: Управление домами") {
-        Container_Boundary(context_house_management, "Контекст: Управление домами") {
-            Container(house_management_api_service, "API Application", "Go", "Предоставляет функции через API")
+        ' Container_Boundary(context_house_management, "Контекст (микросервис): Управление домами") {
+            Container(house_management_api_application, "API Application", "Go", "Предоставляет функции через API")
             ContainerDb(house_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
 
-            Rel(house_management_api_service, house_management_database_service, "Читает и записывает")
-        }
-        
+            Rel(house_management_api_application, house_management_database_service, "Читает и записывает")
+        ' }
     }
 
     Rel(user, web_app, "Использует")
-    Rel(web_app, device_management_api_service, "Использует")
-    Rel(web_app, user_management_api_service, "Использует")
-    Rel(web_app, house_management_api_service, "Использует")
-
-   
+    Rel(web_app, device_management_api_application, "Использует")
+    Rel(web_app, user_management_api_application, "Использует")
+    Rel(web_app, house_management_api_application, "Использует")
 }
 
 Boundary(house, "Дом") {
-    System_Ext(home_device_management_api_service, "Сервис управления устройствами в доме", "Предоставляет функции через API")
+    System_Ext(home_device_management_api_application, "Сервис управления устройствами в доме", "Предоставляет функции через API")
 }
 
-Rel(device_management_api_service, home_device_management_api_service, "Управляет устройствами в доме")
-
-' - **Домен: &laquo;Управление пользователями&raquo;**
-'   - контекст: управление пользователями
-' - **Домен: &laquo;Управление домами&raquo;**
-'   - контекст: управление домами
-' - **Домен: &laquo;Управление устройствами&raquo;**
-'   - контекст: управление умным домом (устройсвами в конкретном доме)
-'   - контекст: включение/выключение отопления в доме
-'   - контекст: просмотр температуры в доме
+Rel(device_management_api_application, home_device_management_api_application, "Управляет устройствами в доме")
 
 @enduml
