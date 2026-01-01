@@ -1,7 +1,7 @@
 @startuml
 
 top to bottom direction
-package "Сервис: Управление пользователями" <<Rectangle>> {
+package "User Service" {
     class User {
         +int id
         +string name
@@ -9,7 +9,7 @@ package "Сервис: Управление пользователями" <<Rect
     }
 }
 
-package "Сервис: Управление домами" <<Rectangle>> {
+package "Home Service" {
     class House {
         +int id
         +string name
@@ -17,7 +17,7 @@ package "Сервис: Управление домами" <<Rectangle>> {
     }
 }
 
-package "Сервис: Управление устройствами" <<Rectangle>> {
+package "Device Service" {
     class Device {
         +int id
         +int type_id
@@ -40,10 +40,10 @@ package "Сервис: Управление устройствами" <<Rectangl
     note bottom of  Module : Группа устройств
 }
 
-package "Сервис: Телеметриий" <<Rectangle>> {
+package "Telemetry Service" {
     class TelemetryData {
          +int id
-         +DateTime insertTimeStamp
+         +DateTime created_at
          +int device_id
          +json data
     }
