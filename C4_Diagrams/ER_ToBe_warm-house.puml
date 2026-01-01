@@ -1,0 +1,63 @@
+@startuml
+
+package "База данных: Управление пользователями" <<Rectangle>> {
+    class User {
+        +int id
+        +string name
+        +string email
+    }
+}
+
+package "База данных: Управление домами" <<Rectangle>> {
+    class House {
+        +int id
+        +string name
+    }
+
+    class House_User {
+        +int id
+        +house id
+        +user id
+    }
+}
+
+package "База данных: Управление устройствами" <<Rectangle>> {
+    class Device {
+        +int id
+        +int type_id
+        +int house_id
+        +string serial_number
+        +bool status
+        +int module_id
+    }
+
+    class DeviceType {
+        +int id
+        +String name
+    }
+
+    class Module {
+        +int id
+        +String name
+    }
+    
+    class TelemetryData {
+         +int id
+         +DateTime insertTimeStamp
+         +int device_id
+         +json data
+    }
+
+    note bottom of  Module : Группа устройств
+    note bottom of  TelemetryData : Данные о работе устройств
+}
+
+House "1" -- "0..*" House_User
+House_User "0..*" -- "1" User
+
+House "1" -- "0..*" Device
+DeviceType "1" -- "1..*" Device
+Module "0..1" -- "0..*" Device 
+TelemetryData "1" -- "0..*"  Device
+
+@enduml 
