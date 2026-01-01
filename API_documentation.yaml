@@ -1,0 +1,56 @@
+openapi: 
+info:
+  title: 
+  description: 
+  version: '1' 
+  termsOfService: 
+  contact:
+    name: 
+    url: 
+    email: 
+  license:
+    name: 
+    url: 
+servers:
+  - url: 
+    description:  
+tags:
+  - name: 
+    
+paths:
+  /: #укажите название метода
+    get:
+      tags:
+       - 
+      summary: 
+      description: 
+      operationId: 
+      parameters:
+      - name: 
+        in:
+        description:
+        required:
+        schema:
+          type:
+          example: 
+      responses:
+        #заполните все возможные варианты ответа сервера. Внимательно следите за структурой вложенностей!
+
+components:
+  schemas:
+    filmslist_details:
+      required:
+      - duration
+      - yearOfIssue
+      type: object
+      properties:
+        yearOfIssue:
+          type: string
+          description: год выпуска
+          example: "2022"
+        duration:
+          type: integer
+          description: продолжительность (в минутах)
+          example: 90
+    inline_response_200_1: 
+      #скопируйте сюда описание схемы
