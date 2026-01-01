@@ -1,5 +1,6 @@
 @startuml
 
+top to bottom direction
 package "База данных: Управление пользователями" <<Rectangle>> {
     class User {
         +int id
@@ -12,12 +13,7 @@ package "База данных: Управление домами" <<Rectangle>>
     class House {
         +int id
         +string name
-    }
-
-    class House_User {
-        +int id
-        +house id
-        +user id
+        +int user_id
     }
 }
 
@@ -52,8 +48,7 @@ package "База данных: Управление устройствами" <
     note bottom of  TelemetryData : Данные о работе устройств
 }
 
-House "1" -- "0..*" House_User
-House_User "0..*" -- "1" User
+User "1" -- "0..*" House 
 
 House "1" -- "0..*" Device
 DeviceType "1" -- "1..*" Device
