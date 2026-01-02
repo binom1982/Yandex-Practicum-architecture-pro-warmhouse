@@ -19,7 +19,7 @@ package "Home Service" {
 
 package "Device Service" {
     class Device {
-        +int id
+        +uuid id
         +int type_id
         +int house_id
         +string serial_number
@@ -42,9 +42,9 @@ package "Device Service" {
 
 package "Telemetry Service" {
     class TelemetryData {
-         +int id
+         +uuid id
          +DateTime created_at
-         +int device_id
+         +uuid device_id
          +json data
     }
 
