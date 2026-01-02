@@ -1,182 +1,201 @@
 {
-    "info": {
-        "_postman_id": "f8e3a123-4567-89ab-cdef-0123456789ab",
-        "name": "Smart Home Sensor API",
-        "description": "A collection for testing the Smart Home Sensor Management API",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "_": {
+        "postman_id": "f8e3a123-4567-89ab-cdef-0123456789ab"
     },
     "item": [
         {
+            "id": "f08ed053-b4de-4498-8c7a-cbd34a30b281",
             "name": "Health Check",
             "request": {
-                "method": "GET",
-                "header": [],
+                "description": {
+                    "content": "Check if the API is running",
+                    "type": "text/plain"
+                },
                 "url": {
-                    "raw": "http://localhost:8080/health",
                     "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
                     "port": "8080",
                     "path": [
                         "health"
-                    ]
-                },
-                "description": "Check if the API is running"
-            },
-            "response": []
-        },
-        {
-            "name": "Get All Sensors",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "http://localhost:8080/api/v1/sensors",
-                    "protocol": "http",
+                    ],
                     "host": [
                         "localhost"
                     ],
+                    "query": [],
+                    "variable": []
+                },
+                "method": "GET"
+            },
+            "response": [],
+            "event": []
+        },
+        {
+            "id": "952da2ba-be03-4502-afdf-01685c1e246d",
+            "name": "Get All Sensors",
+            "request": {
+                "description": {
+                    "content": "Retrieve all sensors",
+                    "type": "text/plain"
+                },
+                "url": {
+                    "protocol": "http",
                     "port": "8080",
                     "path": [
                         "api",
                         "v1",
                         "sensors"
-                    ]
-                },
-                "description": "Retrieve all sensors"
-            },
-            "response": []
-        },
-        {
-            "name": "Get Sensor by ID",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "http://localhost:8080/api/v1/sensors/1",
-                    "protocol": "http",
+                    ],
                     "host": [
                         "localhost"
                     ],
+                    "query": [],
+                    "variable": []
+                },
+                "method": "GET"
+            },
+            "response": [],
+            "event": []
+        },
+        {
+            "id": "78676139-9df9-4f0c-b5e4-028789539298",
+            "name": "Get Sensor by ID",
+            "request": {
+                "description": {
+                    "content": "Retrieve a specific sensor by ID",
+                    "type": "text/plain"
+                },
+                "url": {
+                    "protocol": "http",
                     "port": "8080",
                     "path": [
                         "api",
                         "v1",
                         "sensors",
                         "1"
-                    ]
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "query": [],
+                    "variable": []
                 },
-                "description": "Retrieve a specific sensor by ID"
+                "method": "GET"
             },
-            "response": []
+            "response": [],
+            "event": []
         },
         {
+            "id": "2983a964-f4a3-482b-b323-f4b5a0e83cb2",
             "name": "Create Sensor",
             "request": {
-                "method": "POST",
+                "description": {
+                    "content": "Create a new sensor",
+                    "type": "text/plain"
+                },
+                "url": {
+                    "protocol": "http",
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "v1",
+                        "sensors"
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "query": [],
+                    "variable": []
+                },
                 "header": [
                     {
                         "key": "Content-Type",
                         "value": "application/json"
                     }
                 ],
+                "method": "POST",
                 "body": {
                     "mode": "raw",
                     "raw": "{\n    \"name\": \"Living Room Temperature\",\n    \"type\": \"temperature\",\n    \"location\": \"Living Room\",\n    \"unit\": \"°C\"\n}"
+                }
+            },
+            "response": [],
+            "event": []
+        },
+        {
+            "id": "9ce1e0df-4c40-43e8-b11f-5f4c171b9d36",
+            "name": "Update Sensor",
+            "request": {
+                "description": {
+                    "content": "Update an existing sensor",
+                    "type": "text/plain"
                 },
                 "url": {
-                    "raw": "http://localhost:8080/api/v1/sensors",
                     "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
                     "port": "8080",
                     "path": [
                         "api",
                         "v1",
-                        "sensors"
-                    ]
+                        "sensors",
+                        "1"
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "query": [],
+                    "variable": []
                 },
-                "description": "Create a new sensor"
-            },
-            "response": []
-        },
-        {
-            "name": "Update Sensor",
-            "request": {
-                "method": "PUT",
                 "header": [
                     {
                         "key": "Content-Type",
                         "value": "application/json"
                     }
                 ],
+                "method": "PUT",
                 "body": {
                     "mode": "raw",
                     "raw": "{\n    \"name\": \"Updated Living Room Temperature\",\n    \"type\": \"temperature\",\n    \"location\": \"Living Room\",\n    \"unit\": \"°C\"\n}"
-                },
-                "url": {
-                    "raw": "http://localhost:8080/api/v1/sensors/1",
-                    "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "8080",
-                    "path": [
-                        "api",
-                        "v1",
-                        "sensors",
-                        "1"
-                    ]
-                },
-                "description": "Update an existing sensor"
+                }
             },
-            "response": []
+            "response": [],
+            "event": []
         },
         {
+            "id": "e5f8b5d9-7994-4f7c-b9b0-6a044af0606f",
             "name": "Delete Sensor",
             "request": {
-                "method": "DELETE",
-                "header": [],
+                "description": {
+                    "content": "Delete a sensor",
+                    "type": "text/plain"
+                },
                 "url": {
-                    "raw": "http://localhost:8080/api/v1/sensors/1",
                     "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
                     "port": "8080",
                     "path": [
                         "api",
                         "v1",
                         "sensors",
                         "1"
-                    ]
-                },
-                "description": "Delete a sensor"
-            },
-            "response": []
-        },
-        {
-            "name": "Update Sensor Value",
-            "request": {
-                "method": "PATCH",
-                "header": [
-                    {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                    }
-                ],
-                "body": {
-                    "mode": "raw",
-                    "raw": "{\n    \"value\": 22.5,\n    \"status\": \"active\"\n}"
-                },
-                "url": {
-                    "raw": "http://localhost:8080/api/v1/sensors/1/value",
-                    "protocol": "http",
+                    ],
                     "host": [
                         "localhost"
                     ],
+                    "query": [],
+                    "variable": []
+                },
+                "method": "DELETE"
+            },
+            "response": [],
+            "event": []
+        },
+        {
+            "id": "083e91b7-2b2e-4839-acd1-a1510347a37a",
+            "name": "Update Sensor Value",
+            "request": {
+                "description": {
+                    "content": "Update a sensor's value and status",
+                    "type": "text/plain"
+                },
+                "url": {
+                    "protocol": "http",
                     "port": "8080",
                     "path": [
                         "api",
@@ -184,17 +203,34 @@
                         "sensors",
                         "1",
                         "value"
-                    ]
+                    ],
+                    "host": [
+                        "localhost"
+                    ],
+                    "query": [],
+                    "variable": []
                 },
-                "description": "Update a sensor's value and status"
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "PATCH",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"value\": 22.5,\n    \"status\": \"active\"\n}"
+                }
             },
-            "response": []
+            "response": [],
+            "event": []
         }
     ],
     "event": [
         {
             "listen": "prerequest",
             "script": {
+                "id": "5add5a12-6613-4b27-b801-8c91d75479ad",
                 "type": "text/javascript",
                 "exec": [
                     ""
@@ -204,6 +240,7 @@
         {
             "listen": "test",
             "script": {
+                "id": "8b2ce639-1a8e-4993-a4fc-f310548d2254",
                 "type": "text/javascript",
                 "exec": [
                     ""
@@ -213,9 +250,18 @@
     ],
     "variable": [
         {
-            "key": "baseUrl",
+            "type": "string",
             "value": "http://localhost:8080",
-            "type": "string"
+            "key": "baseUrl"
         }
-    ]
+    ],
+    "info": {
+        "_postman_id": "f8e3a123-4567-89ab-cdef-0123456789ab",
+        "name": "Smart Home Sensor API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": {
+            "content": "A collection for testing the Smart Home Sensor Management API",
+            "type": "text/plain"
+        }
+    }
 }
