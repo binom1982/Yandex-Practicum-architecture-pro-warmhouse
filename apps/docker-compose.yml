@@ -14,8 +14,8 @@ services:
     ports:
         - "5432:5432"
     volumes:
+      - postgres_data:/var/lib/postgresql/data
       - ./smart_home/init.sql:/docker-entrypoint-initdb.d/init.sql
-      # - postgres_data:/var/lib/postgresql/data
     networks:
         - smarthome-network
 
@@ -47,8 +47,8 @@ services:
     networks:
       - smarthome-network
 
-# volumes:
-#   postgres_data:
+volumes:
+  postgres_data:
 
 networks:
   smarthome-network:
