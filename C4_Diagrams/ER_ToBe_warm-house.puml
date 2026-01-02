@@ -43,9 +43,11 @@ package "Device Service" {
 package "Telemetry Service" {
     class TelemetryData {
          +uuid id
-         +DateTime created_at
+         +DateTime timestamp
          +uuid device_id
-         +json data
+         +string metric
+         +double value
+         +string unit
     }
 
     note bottom of  TelemetryData : Данные о работе устройств

@@ -144,13 +144,15 @@ paths:
                   summary: Пример массива данных телеметрии
                   value:
                     - timestamp: "2026-01-02T10:00:00Z"
+                      device_id: "123e4567-e89b-12d3-a456-426614174000"
                       metric: "temperature"
                       value: 22.5
                       unit: "°C"
                     - timestamp: "2026-01-02T10:05:00Z"
-                      metric: "humidity"
+                      device_id: "123e4567-e89b-12d3-a456-426614174000"
+                      metric: "temperature"
                       value: 45.0
-                      unit: "%"
+                      unit: "°C"
         '400':
           description: Некорректные параметры
       tags:
@@ -194,9 +196,13 @@ components:
         timestamp:
           type: string
           format: date-time
+        device_id:
+          type: string
+          format: uuid
         metric:
           type: string
         value:
           type: number
+          format: double
         unit:
           type: string

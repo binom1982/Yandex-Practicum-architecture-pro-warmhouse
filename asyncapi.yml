@@ -1,0 +1,76 @@
+asyncapi: 2.6.0
+info:
+  title: Telemetry Service
+  version: 1.0.0
+  description: Асинхронный API для передачи телеметрических данных устройств
+servers:
+  kafka-cluster:
+    url: kafka.warmhouse.example.com:9092
+    protocol: kafka
+    description: Основной кластер Kafka для телеметрии
+channels:
+  telemetry.data.new:
+    description: Топик для новых телеметрических данных от устройств
+    subscribe:
+      summary: Получение телеметрии
+      message:
+        $ref: '#/components/messages/TelemetryEvent'
+    publish:
+      summary: Отправка телеметрии от устройства
+      message:
+        $ref: '#/components/messages/TelemetryEvent'
+components:
+  messages:
+    TelemetryEvent:
+      summary: Событие новой телеметрии
+      payload:
+        $ref: '#/components/schemas/TelemetryPayload'
+      headers:
+        $ref: '#/components/schemas/EventHeaders'
+  schemas:
+    TelemetryPayload:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+          description: ID устройства
+        metric:
+          type: string
+          description: Тип метрики (temperature, heating и т. д.)
+        value:
+          type: number
+          description: Значение метрики
+        unit:
+          type: string
+          description: Единица измерения (°C, %, Вт и т. д.)
+        timestamp:
+          type: string
+          format: date-time
+          description: Время измерения
+      required:
+        - device_id
+        - metric
+        - value
+        - timestamp
+    EventHeaders:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный ID события (UUID)
+        source:
+          type: string
+          description: Источник события (например, /devices/123)
+        type:
+          type: string
+          description: Тип события (telemetry.data.new)
+        time:
+          type: string
+          format: date-time
+          description: Время создания события
+      required:
+        - id
+        - source
+        - type
+        - time
