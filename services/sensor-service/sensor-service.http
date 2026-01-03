@@ -1,11 +1,11 @@
-@device_service_HostAddress = http://localhost:5224
+@sensor_service_HostAddress = http://localhost:32782
 
 GET {{sensor_service_HostAddress}}/sensors/
 Accept: application/json
 
 ###
 
-GET {{sensor_service_HostAddress}}/sensors/1
+GET {{sensor_service_HostAddress}}/sensors/1282387f-c5f3-492a-a891-cadf0b11e5e5
 Accept: application/json
 
 ###

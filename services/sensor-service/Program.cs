@@ -6,7 +6,6 @@ var builder = WebApplication.CreateSlimBuilder(args);
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -19,7 +18,6 @@ var app = builder.Build();
     app.UseSwaggerUI(c =>
          c.SwaggerEndpoint("/openapi/v1.json", "API Sensor Service v1")
     );
-   
 //}
 
 Sensor[] sensors = [
@@ -39,7 +37,6 @@ sensorsApi.MapGet("/{id}", Results<Ok<Sensor>, NotFound> (Guid id) =>
     .WithName("GetSensorById");
 
 app.Run();
-
 
 public record Sensor(Guid Id, string Name, string SerialNumber, string Status);
 
