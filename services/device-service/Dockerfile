@@ -20,16 +20,16 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["device-service.csproj", "."]
-RUN dotnet restore "./device-service.csproj"
+COPY ["sensor-service.csproj", "."]
+RUN dotnet restore "./sensor-service.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "./device-service.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./sensor-service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./device-service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
+RUN dotnet publish "./sensor-service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
 
 # This stage is used as the base for the final stage when launching from VS to support debugging in regular mode (Default when not using the Debug configuration)
 FROM base AS aotdebug
@@ -45,4 +45,4 @@ FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:10.0} AS final
 WORKDIR /app
 EXPOSE 8080
 COPY --from=publish /app/publish .
-ENTRYPOINT ["./device-service"]
+ENTRYPOINT ["./sensor-service"]
