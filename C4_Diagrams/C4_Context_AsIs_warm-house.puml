@@ -1,8 +1,10 @@
 @startuml
+!theme C4_sandstone from <C4/themes>
 !include Templates/C4_Context.puml
 title "Context diagrams: Тёплый дом"
 
 SHOW_PERSON_OUTLINE()
+' LAYOUT_LANDSCAPE()
 LAYOUT_TOP_DOWN()
 'LAYOUT_AS_SKETCH()
 
@@ -14,9 +16,12 @@ Boundary(house, "Дом") {
     System_Ext(temperature_sensor_api, "Temperature sensor API", "Внешний API для получения данных датчика температуры",)
 }
 
-Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
-Rel(smart_house_system, heating_sensor_api, "Управляет датчиком отопления")
-Rel(smart_house_system, temperature_sensor_api, "Получает данные с датчика температуры")
+Person_Ext(service_man, "Serviceman", "Наладчик")
 
-'SHOW_LEGEND()
+Rel(user, smart_house_system, "Управляет отоплением в доме и проверяет температуру")
+Rel(smart_house_system, heating_sensor_api, "Управляет")
+Rel(smart_house_system, temperature_sensor_api, "Получает данные")
+
+Rel(service_man, heating_sensor_api, "Устанавливает")
+Rel(service_man, temperature_sensor_api, "Устанавливает")
 @enduml
