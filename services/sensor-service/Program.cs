@@ -20,19 +20,7 @@ var app = builder.Build();
     );
 //}
 
-var sensorsApi = app.MapGroup("/sensors");
-sensorsApi.MapGet("/", () => GetSensors)
-    .WithName("GetAllSensors");
-
-sensorsApi.MapGet("/{id}", Results<Ok<Sensor>, NotFound> (int id) =>
-    GetSensors().FirstOrDefault(sensor => sensor.Id == id) is { } sensor
-        ? TypedResults.Ok(sensor)
-        : TypedResults.NotFound())
-    .WithName("GetSensorById");
-
-app.Run();
-
-static IEnumerable<Sensor> GetSensors() =>[
+Sensor[] sensors = [
     new (
         Id: 1,
         Name: "Датчик температуры",
@@ -70,6 +58,19 @@ static IEnumerable<Sensor> GetSensors() =>[
         CreatedAt: DateTime.Parse("2026-01-03")
     ),
 ];
+
+var sensorsApi = app.MapGroup("/sensors");
+
+sensorsApi.MapGet("/", () => sensors)
+    .WithName("GetAllSensors");
+
+sensorsApi.MapGet("/{id}", Results<Ok<Sensor>, NotFound> (int id) =>
+    sensors.FirstOrDefault(sensor => sensor.Id == id) is { } sensor
+        ? TypedResults.Ok(sensor)
+        : TypedResults.NotFound())
+    .WithName("GetSensorById");
+
+app.Run();
 
 public record Sensor(
     int Id, 
