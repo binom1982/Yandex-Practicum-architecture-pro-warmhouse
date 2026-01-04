@@ -4,7 +4,6 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: smarthome-postgres
-  ## тут нужно добавить настройки
     environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
@@ -20,11 +19,18 @@ services:
         - smarthome-network
 
   temperature-api: 
-  ## тут нужно добавить приложение
     build: ./temperature-api
     container_name: temperature-api
     ports:
       - "8081:8081"
+    networks:
+      - smarthome-network
+
+  sensor-service:
+    build: ../services/sensor-service
+    container_name: sensor-api
+    ports:
+      - "8082:8080"
     networks:
       - smarthome-network
 
@@ -41,6 +47,7 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/smarthome
       - TEMPERATURE_API_URL=http://temperature-api:8081
+      - SENSOR_API_URL=http://sensor-api:8082
     ports:
       - "8080:8080"
     restart: unless-stopped

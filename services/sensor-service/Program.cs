@@ -20,25 +20,69 @@ var app = builder.Build();
     );
 //}
 
-Sensor[] sensors = [
-    new (Guid.NewGuid(), "Датчик температуры","931013150305", "on"),
-    new (Guid.NewGuid(), "Датчик отопления", "C8QH6T96DPNG", "on"),
-    new (Guid.NewGuid(), "Лампочка", "1002353BVK1990046841" ,"off")
-];
-
 var sensorsApi = app.MapGroup("/sensors");
-sensorsApi.MapGet("/", () => sensors)
+sensorsApi.MapGet("/", () => GetSensors)
     .WithName("GetAllSensors");
 
-sensorsApi.MapGet("/{id}", Results<Ok<Sensor>, NotFound> (Guid id) =>
-    sensors.FirstOrDefault(sensor => sensor.Id == id) is { } sensor
+sensorsApi.MapGet("/{id}", Results<Ok<Sensor>, NotFound> (int id) =>
+    GetSensors().FirstOrDefault(sensor => sensor.Id == id) is { } sensor
         ? TypedResults.Ok(sensor)
         : TypedResults.NotFound())
     .WithName("GetSensorById");
 
 app.Run();
 
-public record Sensor(Guid Id, string Name, string SerialNumber, string Status);
+static IEnumerable<Sensor> GetSensors() =>[
+    new (
+        Id: 1,
+        Name: "Датчик температуры",
+        SerialNumber: "931013150305",
+        TypeId: 1,
+        Location: "Гостиная",
+        Status: "on" ,
+        Value: 25.36,
+        Uint: "°C",
+        LastUpdated: DateTime.Now,
+        CreatedAt: DateTime.Parse("2026-01-01")
+    ),
+    new (
+        Id: 2,
+        Name: "Датчик отопления",
+        SerialNumber: "C8QH6T96DPNG",
+        TypeId: 3,
+        Location: "Спальня",
+        Status: "on" ,
+        Value: 25.36,
+        Uint: "°C",
+        LastUpdated: DateTime.Now,
+        CreatedAt: DateTime.Parse("2026-01-02")
+    ),
+    new (
+        Id: 3,
+        Name: "Лампочка",
+        SerialNumber: "1002353BVK1990046841",
+        TypeId: 2,
+        Location: "Кухня",
+        Status: "off" ,
+        Value: 150,
+        Uint: "lx",
+        LastUpdated: DateTime.Now,
+        CreatedAt: DateTime.Parse("2026-01-03")
+    ),
+];
+
+public record Sensor(
+    int Id, 
+    string Name,
+    string SerialNumber,
+    int TypeId,
+    string Location,
+    string Status,
+    double Value,
+    string Uint,
+    DateTime LastUpdated,
+    DateTime CreatedAt
+);
 
 [JsonSerializable(typeof(Sensor[]))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
