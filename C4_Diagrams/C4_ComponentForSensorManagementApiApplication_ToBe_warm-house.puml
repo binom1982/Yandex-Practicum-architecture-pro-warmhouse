@@ -5,7 +5,6 @@ title "Component diagrams: Тёплый дом"
 
 
 SHOW_PERSON_OUTLINE()
-
 ' LAYOUT_LANDSCAPE()
 ' LAYOUT_AS_SKETCH()
 
@@ -17,18 +16,20 @@ Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
            
     System_Boundary(sensor_management, "Sensor management (subdomen)") {
         Container_Boundary(sensor_management_api_application, "API Application") {  
-            Component(sensor_management_controller, "Api Controller", "Go", "Контроллер")
-            Component(sensor_management_service, "Sensor management Service", "Go", "Управляет устройствами")
-            
-            Component(command_handler_service, "Command handler Service", "Go", "Обрабатывает команды")
-            Component(Sensor_status_manager_service, "Sensor status manager Service", "Go", "Менеджер состояния устройств")
-
+            Component(sensor_management_api_controller, "Api Controller", "Go", "Контроллер")            
+            Component(sensor_command_handler_service, "Command handler Service", "Go", "Обрабатывает команды")
+            Component(sensor_status_manager_service, "Sensor status manager Service", "Go", "Менеджер состояния устройств")
         }    
         
         ContainerDb(sensor_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
         
-        Rel(sensor_management_controller, sensor_management_service, "Использует")
-        Rel(sensor_management_service,sensor_management_database_service, "Читает и записывает")
+        Rel(web_app, sensor_management_api_controller, "Использует")
+
+        Rel(sensor_management_api_controller, sensor_command_handler_service, "Использует")
+        Rel(sensor_command_handler_service, sensor_management_database_service, "Читает и записывает")
+        
+        Rel(sensor_management_api_controller, sensor_status_manager_service, "Использует")
+        Rel(sensor_status_manager_service, sensor_management_database_service, "Читает и записывает")
     }
 
     System_Boundary(telemetry_management, "Telemetry management (subdomen)") {
@@ -58,7 +59,6 @@ Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
     }
 
     Rel(user, web_app, "Использует")
-    Rel(web_app, sensor_management_controller, "Использует")
     Rel(web_app, telemetry_management_api_application, "Использует")
     Rel(web_app, user_management_api_application, "Использует")
     Rel(web_app, house_management_api_application, "Использует")
