@@ -71,7 +71,10 @@
 
 ### Диаграмма компонентов (Components)
 
-Добавьте диаграмму для каждого из выделенных микросервисов.
+- [C4 Component Diagram To-Be for Sensor management Api application](C4_ComponentForSensorManagementApiApplication_ToBe_warm-house.puml)
+
+<!-- Добавьте диаграмму для каждого из выделенных микросервисов. -->
+
 
 **Диаграмма кода (Code)**
 

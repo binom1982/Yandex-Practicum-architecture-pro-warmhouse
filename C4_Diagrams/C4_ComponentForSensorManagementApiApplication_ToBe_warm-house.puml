@@ -1,7 +1,8 @@
 @startuml
 !theme C4_sandstone from <C4/themes>
-!include Templates/C4_Container.puml
-title "Container diagrams: Тёплый дом"
+!include Templates/C4_Component.puml
+title "Component diagrams: Тёплый дом"
+
 
 SHOW_PERSON_OUTLINE()
 
@@ -13,13 +14,21 @@ Person(user, "User", "Пользователь")
 Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
 
     Container(web_app, "Web Application", "", "Веб-приложение")
-
            
     System_Boundary(sensor_management, "Sensor management (subdomen)") {
-        Container(sensor_management_api_application, "API Application", "Go", "Предоставляет функции через API для управления датчиками")        
+        Container_Boundary(sensor_management_api_application, "API Application") {  
+            Component(sensor_management_controller, "Api Controller", "Go", "Контроллер")
+            Component(sensor_management_service, "Sensor management Service", "Go", "Управляет устройствами")
+            
+            Component(command_handler_service, "Command handler Service", "Go", "Обрабатывает команды")
+            Component(Sensor_status_manager_service, "Sensor status manager Service", "Go", "Менеджер состояния устройств")
+
+        }    
+        
         ContainerDb(sensor_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
         
-        Rel(sensor_management_api_application, sensor_management_database_service, "Читает и записывает")
+        Rel(sensor_management_controller, sensor_management_service, "Использует")
+        Rel(sensor_management_service,sensor_management_database_service, "Читает и записывает")
     }
 
     System_Boundary(telemetry_management, "Telemetry management (subdomen)") {
@@ -49,16 +58,10 @@ Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
     }
 
     Rel(user, web_app, "Использует")
-    Rel(web_app, sensor_management_api_application, "Использует")
+    Rel(web_app, sensor_management_controller, "Использует")
     Rel(web_app, telemetry_management_api_application, "Использует")
     Rel(web_app, user_management_api_application, "Использует")
     Rel(web_app, house_management_api_application, "Использует")
 }
-
-' Boundary(house, "Дом") {
-'     System_Ext(home_sensor_management_api_application, "Сервис управления устройствами в доме", "Предоставляет функции через API")
-' }
-
-' Rel_Left(sensor_management_api_application, home_sensor_management_api_application, "Управляет устройствами в доме")
 
 @enduml
