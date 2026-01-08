@@ -59,18 +59,18 @@
 
 ### 5. Визуализация контекста системы — диаграмма С4
 
-[C4 Context Diagram As-Is](C4_Diagrams/C4_Context_AsIs_warm-house.puml)
+[C4 Context Diagram As-Is](C4_Diagrams/C4_Context_AsIs_WarmHouse.puml)
 
 ## Задание 2. Проектирование микросервисной архитектуры
 
 ### Диаграмма контейнеров (Containers)
 
-- [C4 Container Diagram To-Be](C4_Diagrams/C4_Container_ToBe_warm-house.puml)
+- [C4 Container Diagram To-Be](C4_Diagrams/C4_Container_ToBe_WarmHouse.puml)
 
 ### Диаграмма компонентов (Components)
 
-- [C4 Component Diagram To-Be for Sensor management Api Application](C4_Diagrams/C4_ComponentForSensorManagementApiApplication_ToBe_warm-house.puml)
-- [C4 Component Diagram To-Be for Telemetry management Api Application](C4_Diagrams/C4_ComponentForTelemetryManagementApiApplication_ToBe_warm-house.puml)
+- [C4 Component Diagram To-Be for Sensor management Api Application](C4_Diagrams/C4_ComponentForSensorManagementApiApplication_ToBe_WarmHouse.puml)
+- [C4 Component Diagram To-Be for Telemetry management Api Application](C4_Diagrams/C4_ComponentForTelemetryManagementApiApplication_ToBe_WarmHouse.puml)
 
 ### Диаграмма кода (Code)
 
