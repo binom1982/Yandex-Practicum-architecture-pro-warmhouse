@@ -1,0 +1,17 @@
+@startuml
+!theme C4_sandstone from <C4/themes>
+!include Templates/C4_Dynamic.puml
+title "Code diagrams for Telemetry management: Тёплый дом"
+
+System_Boundary(telemetry_management, "Telemetry management") {
+        Container(telemetry_management_api_application, "API Application", "Go", "Предоставляет функции через API")
+        Container(telemetry_management_sensor_api_monitor, "API Application", "Go", "API монитор датчиков")
+        
+        ContainerDb(telemetry_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
+        ContainerQueue(queue, "Queue", "Очередь для высоконагруженных систем и потоковой обработки событий", "Apache Kafka")
+
+        Rel_R(telemetry_management_sensor_api_monitor, queue, "Публикует события от устройств", "async, JSON/HTTPS")
+        Rel_L(telemetry_management_api_application, queue, "Подписано на канал данных с информацией от устройств" , "async, JSON/HTTPS")
+        Rel_D(telemetry_management_api_application, telemetry_management_database_service, "Читает и записывает", "sync, TCP")
+}
+@enduml

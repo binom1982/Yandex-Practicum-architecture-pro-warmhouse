@@ -74,11 +74,11 @@
 
 ### Диаграмма кода (Code)
 
-Добавьте одну диаграмму или несколько.
+- [C4 Code Dynamic Diagram To-Be for Telemetry management](C4_Diagrams/C4_CodeDynamicForTelemetryManagement_ToBe_WarmHouse.puml)
 
-# Задание 3. Разработка ER-диаграммы
+## Задание 3. Разработка ER-диаграммы
 
-Добавьте сюда ER-диаграмму. Она должна отражать ключевые сущности системы, их атрибуты и тип связей между ними.
+- [ER Diagram To-Be](C4_Diagrams/ER_ToBe_WarmHouse.puml)
 
 # Задание 4. Создание и документирование API
 

@@ -1,5 +1,4 @@
 @startuml
-
 top to bottom direction
 package "User Service" {
     class User {
@@ -17,9 +16,9 @@ package "Home Service" {
     }
 }
 
-package "Device Service" {
-    class Device {
-        +uuid id
+package "Sensor Service" {
+    class Sensor {
+        +int id
         +string name
         +int type_id
         +int house_id
@@ -28,7 +27,7 @@ package "Device Service" {
         +int module_id
     }
 
-    class DeviceType {
+    class SensorType {
         +int id
         +String name
     }
@@ -42,22 +41,21 @@ package "Device Service" {
 }
 
 package "Telemetry Service" {
-    class TelemetryData {
+    class Telemetry {
          +int id
          +DateTime created_at
-         +int device_id
+         +int sensor_id
          +string metric
          +double value
          +string unit
     }
 
-    note bottom of  TelemetryData : Данные о работе устройств
+    note bottom of  Telemetry : Данные о работе устройств
 }
 
 User "1" -- "0..*" House 
-House "1" -- "0..*" Device
-DeviceType "1" -- "1..*" Device
-Module "0..1" -- "0..*" Device 
-TelemetryData "0..1" -- "0..*"  Device
-
+House "1" -- "0..*" Sensor
+SensorType "1" -- "1..*" Sensor
+Module "0..1" -- "0..*" Sensor 
+Telemetry "0..1" -- "0..*"  Sensor
 @enduml 
