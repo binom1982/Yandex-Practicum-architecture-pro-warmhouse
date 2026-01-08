@@ -1,67 +1,65 @@
 openapi: '3.0.3'
 info:
-  title: Smart Home API
+  title: Warm Home API
   version: '1.0'
   description: API для взаимодействия микросервисов экосистемы «Тёплый дом»
 servers:
   - url: http://localhost:8080/api/v1
 paths:
-  /devices/{id}:
+  /sensors/{id}:
     get:
-      summary: Получить информацию об устройстве
+      summary: Получить информацию о датчике
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: number
       responses:
         '200':
           description: Устройство найдено
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Device'
+                $ref: '#/components/schemas/Sensor'
               examples:
-                DeviceExample:
-                  summary: Пример ответа для GET /devices/{id}
+                SensorExample:
+                  summary: Пример ответа для GET /sensors/{id}
                   value:
-                    id: "123e4567-e89b-12d3-a456-426614174000"
-                    name: "Датчик температуры Гостинная"
+                    id: "1"
+                    name: "Датчик температуры Гостиная"
                     type: "Датчик температуры"
                     status: "on"
                     last_seen: "2026-01-02T12:00:00Z"
         '404':
           description: Устройство не найдено
       tags:
-        - Device Management
+        - Sensor Management
     patch:
-      summary: Обновить состояние устройства
+      summary: Обновить состояние датчика
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceUpdate'
+              $ref: '#/components/schemas/SensorUpdate'
             examples:
-              UpdatedDeviceExample:
+              UpdatedSensorExample:
                 summary: Пример обновлённого устройства после PATCH
                 value:
-                  id: "123e4567-e89b-12d3-a456-426614174000"
-                  name: "Датчик температуры Гостинная"
+                  id: "1"
+                  name: "Датчик температуры Гостиная"
                   type: "Датчик температуры"
                   status: "off"
                   last_seen: "2026-01-02T12:05:00Z"
-              DeviceUpdateExample:
-                summary: Пример тела запроса для PATCH /devices/{id}
+              SensorUpdateExample:
+                summary: Пример тела запроса для PATCH /sensors/{id}
                 value:
                   status: "off"
       responses:
@@ -70,14 +68,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Device'
+                $ref: '#/components/schemas/Sensor'
         '400':
           description: Некорректные данные
         '500':
           description: Внутренняя ошибка сервера
       tags:
-        - Device Management
-  /devices/{id}/command:
+        - Sensor Management
+  /sensors/{id}/command:
     post:
       summary: Отправить команду устройству
       parameters:
@@ -85,8 +83,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: number
       requestBody:
         required: true
         content:
@@ -95,7 +92,7 @@ paths:
               $ref: '#/components/schemas/Command'
             examples:
               CommandExample:
-                summary: Пример команды для POST /devices/{id}/command
+                summary: Пример команды для POST /sensors/{id}/command
                 value:
                   command: "on"
                   payload: {}
@@ -107,17 +104,16 @@ paths:
         '404':
           description: Устройство не найдено
       tags:
-        - Device Management
+        - Sensor Management
   /telemetry:
     get:
       summary: Получить данные телеметрии
       parameters:
-        - name: device_id
+        - name: sensor_id
           in: query
           required: true
           schema:
-            type: string
-            format: uuid
+            type: number
         - name: from
           in: query
           required: false
@@ -144,12 +140,12 @@ paths:
                   summary: Пример массива данных телеметрии
                   value:
                     - timestamp: "2026-01-02T10:00:00Z"
-                      device_id: "123e4567-e89b-12d3-a456-426614174000"
+                      sensor_id: "123e4567-e89b-12d3-a456-426614174000"
                       metric: "temperature"
                       value: 22.5
                       unit: "°C"
                     - timestamp: "2026-01-02T10:05:00Z"
-                      device_id: "123e4567-e89b-12d3-a456-426614174000"
+                      sensor_id: "123e4567-e89b-12d3-a456-426614174000"
                       metric: "temperature"
                       value: 45.0
                       unit: "°C"
@@ -160,12 +156,11 @@ paths:
 
 components:
   schemas:
-    Device:
+    Sensor:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
+          type: number
         name:
           type: string
         type:
@@ -176,7 +171,7 @@ components:
         last_seen:
           type: string
           format: date-time
-    DeviceUpdate:
+    SensorUpdate:
       type: object
       properties:
         status:
@@ -196,9 +191,8 @@ components:
         timestamp:
           type: string
           format: date-time
-        device_id:
-          type: string
-          format: uuid
+        sensor_id:
+          type: number
         metric:
           type: string
         value:
