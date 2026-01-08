@@ -1,10 +1,10 @@
 @startuml
 !theme C4_sandstone from <C4/themes>
-!include Templates/C4_Container.puml
-title "Container diagrams: Тёплый дом"
+!include Templates/C4_Component.puml
+title "Component diagrams: Тёплый дом"
+
 
 SHOW_PERSON_OUTLINE()
-
 ' LAYOUT_LANDSCAPE()
 ' LAYOUT_AS_SKETCH()
 
@@ -13,25 +13,41 @@ Person(user, "User", "Пользователь")
 Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
 
     Container(web_app, "Web Application", "", "Веб-приложение")
-
            
     System_Boundary(sensor_management, "Sensor management (subdomen)") {
         Container(sensor_management_api_application, "API Application", "Go", "Предоставляет функции через API для управления датчиками")
         ContainerDb(sensor_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
         
         Rel(sensor_management_api_application, sensor_management_database_service, "Читает и записывает")
+
+        Rel(web_app, sensor_management_api_application, "Использует")
+
+        ' Rel(sensor_management_api_controller, sensor_command_handler_service, "Использует")
+        ' Rel(sensor_command_handler_service, sensor_management_database_service, "Читает и записывает")
+        
+        ' Rel(sensor_management_api_controller, sensor_status_manager_service, "Использует")
+        ' Rel(sensor_status_manager_service, sensor_management_database_service, "Читает и записывает")
     }
 
     System_Boundary(telemetry_management, "Telemetry management (subdomen)") {
-        Container(telemetry_management_api_application, "API Application", "Go", "Предоставляет функции через API")
+       Container_Boundary(telemetry_management_api_application, "API Application") {  
+            Component(telemetry_management_api_controller, "Api Controller", "Go", "Контроллер") 
+            Component(telemetry_management_service, "Telemetry management Service", "Go", "Сервис управления телеметрией")         
+            
+            Rel(telemetry_management_api_controller, telemetry_management_service, "Использует")
+
+        }    
+    
         Container(telemetry_management_sensor_api_monitor, "API Application", "Go", "API монитор датчиков")
         
         ContainerDb(telemetry_management_database_service, "Database", "PostgreSQL", "Хранит информацию")
         ContainerQueue(queue, "Queue", "Очередь для высоконагруженных систем и потоковой обработки событий", "Apache Kafka")
 
-        Rel(telemetry_management_api_application, telemetry_management_database_service, "Читает и записывает")
+        Rel(web_app, telemetry_management_api_controller, "Использует")
+
+        Rel(telemetry_management_service, telemetry_management_database_service, "Читает и записывает")
         Rel(telemetry_management_sensor_api_monitor, queue, "Публикует события от устройств")
-        Rel(telemetry_management_api_application, queue, "Подписано на канал данных с информацией от устройств")
+        Rel(telemetry_management_api_controller, queue, "Подписано на канал данных с информацией от устройств")
     }
    
     System_Boundary(user_management, "User management (subdomen)") {
@@ -49,16 +65,8 @@ Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
     }
 
     Rel(user, web_app, "Использует")
-    Rel(web_app, sensor_management_api_application, "Использует")
-    Rel(web_app, telemetry_management_api_application, "Использует")
     Rel(web_app, user_management_api_application, "Использует")
     Rel(web_app, house_management_api_application, "Использует")
 }
-
-' Boundary(house, "Дом") {
-'     System_Ext(home_sensor_management_api_application, "Сервис управления устройствами в доме", "Предоставляет функции через API")
-' }
-
-' Rel_Left(sensor_management_api_application, home_sensor_management_api_application, "Управляет устройствами в доме")
 
 @enduml

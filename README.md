@@ -63,20 +63,16 @@
 
 ## Задание 2. Проектирование микросервисной архитектуры
 
-<!-- В этом задании вам нужно предоставить только диаграммы в модели C4. Мы не просим вас отдельно описывать получившиеся микросервисы и то, как вы определили взаимодействия между компонентами To-Be системы. Если вы правильно подготовите диаграммы C4, они и так это покажут. -->
-
 ### Диаграмма контейнеров (Containers)
 
-[C4 Container Diagram To-Be](C4_Diagrams/C4_Container_ToBe_warm-house.puml)
+- [C4 Container Diagram To-Be](C4_Diagrams/C4_Container_ToBe_warm-house.puml)
 
 ### Диаграмма компонентов (Components)
 
-- [C4 Component Diagram To-Be for Sensor management Api application](C4_ComponentForSensorManagementApiApplication_ToBe_warm-house.puml)
+- [C4 Component Diagram To-Be for Sensor management Api Application](C4_Diagrams/C4_ComponentForSensorManagementApiApplication_ToBe_warm-house.puml)
+- [C4 Component Diagram To-Be for Telemetry management Api Application](C4_Diagrams/C4_ComponentForTelemetryManagementApiApplication_ToBe_warm-house.puml)
 
-<!-- Добавьте диаграмму для каждого из выделенных микросервисов. -->
-
-
-**Диаграмма кода (Code)**
+### Диаграмма кода (Code)
 
 Добавьте одну диаграмму или несколько.
 

@@ -41,7 +41,7 @@ Enterprise_Boundary(smart_house_system, "Smart Home (domen)") {
 
         Rel(telemetry_management_api_application, telemetry_management_database_service, "Читает и записывает")
         Rel(telemetry_management_sensor_api_monitor, queue, "Публикует события от устройств")
-        Rel(telemetry_management_api_application, queue, "Подписана на канал данных с информацией от устройств")
+        Rel(telemetry_management_api_application, queue, "Подписано на канал данных с информацией от устройств")
     }
    
     System_Boundary(user_management, "User management (subdomen)") {
