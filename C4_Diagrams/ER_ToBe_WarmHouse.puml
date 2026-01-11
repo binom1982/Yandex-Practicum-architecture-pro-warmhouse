@@ -1,0 +1,61 @@
+@startuml
+top to bottom direction
+package "User Service" {
+    class User {
+        +int id
+        +string name
+        +string email
+    }
+}
+
+package "Home Service" {
+    class House {
+        +int id
+        +string name
+        +int user_id
+    }
+}
+
+package "Sensor Service" {
+    class Sensor {
+        +int id
+        +string name
+        +int type_id
+        +int house_id
+        +string serial_number
+        +string status
+        +int module_id
+    }
+
+    class SensorType {
+        +int id
+        +String name
+    }
+
+    class Module {
+        +int id
+        +String name
+    }
+    
+    note bottom of  Module : Группа устройств
+}
+
+package "Telemetry Service" {
+    class Telemetry {
+         +int id
+         +DateTime created_at
+         +int sensor_id
+         +string metric
+         +double value
+         +string unit
+    }
+
+    note bottom of  Telemetry : Данные о работе устройств
+}
+
+User "1" -- "0..*" House 
+House "1" -- "0..*" Sensor
+SensorType "1" -- "1..*" Sensor
+Module "0..1" -- "0..*" Sensor 
+Telemetry "0..1" -- "0..*"  Sensor
+@enduml 

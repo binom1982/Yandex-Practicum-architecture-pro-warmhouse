@@ -1,0 +1,11 @@
+﻿@telemetry_service_HostAddress = http://localhost:32786
+
+GET {{telemetry_service_HostAddress}}/telemetry/
+Accept: application/json
+
+###
+
+GET {{telemetry_service_HostAddress}}/telemetry/1
+Accept: application/json
+
+###

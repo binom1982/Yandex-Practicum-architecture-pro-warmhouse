@@ -1,0 +1,202 @@
+openapi: '3.0.3'
+info:
+  title: Warm Home API
+  version: '1.0'
+  description: API для взаимодействия микросервисов экосистемы «Тёплый дом»
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /sensors/{id}:
+    get:
+      summary: Получить информацию о датчике
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Устройство найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sensor'
+              examples:
+                SensorExample:
+                  summary: Пример ответа для GET /sensors/{id}
+                  value:
+                    id: "1"
+                    name: "Датчик температуры Гостиная"
+                    type: "Датчик температуры"
+                    status: "on"
+                    last_seen: "2026-01-02T12:00:00Z"
+        '404':
+          description: Устройство не найдено
+      tags:
+        - Sensor Management
+    patch:
+      summary: Обновить состояние датчика
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SensorUpdate'
+            examples:
+              UpdatedSensorExample:
+                summary: Пример обновлённого устройства после PATCH
+                value:
+                  id: "1"
+                  name: "Датчик температуры Гостиная"
+                  type: "Датчик температуры"
+                  status: "off"
+                  last_seen: "2026-01-02T12:05:00Z"
+              SensorUpdateExample:
+                summary: Пример тела запроса для PATCH /sensors/{id}
+                value:
+                  status: "off"
+      responses:
+        '200':
+          description: Состояние обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sensor'
+        '400':
+          description: Некорректные данные
+        '500':
+          description: Внутренняя ошибка сервера
+      tags:
+        - Sensor Management
+  /sensors/{id}/command:
+    post:
+      summary: Отправить команду устройству
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Command'
+            examples:
+              CommandExample:
+                summary: Пример команды для POST /sensors/{id}/command
+                value:
+                  command: "on"
+                  payload: {}
+      responses:
+        '202':
+          description: Команда принята в обработку
+        '400':
+          description: Некорректная команда
+        '404':
+          description: Устройство не найдено
+      tags:
+        - Sensor Management
+  /telemetry:
+    get:
+      summary: Получить данные телеметрии
+      parameters:
+        - name: sensor_id
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Данные телеметрии
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TelemetryRecord'
+              examples:
+                TelemetryExample:
+                  summary: Пример массива данных телеметрии
+                  value:
+                    - timestamp: "2026-01-02T10:00:00Z"
+                      sensor_id: "123e4567-e89b-12d3-a456-426614174000"
+                      metric: "temperature"
+                      value: 22.5
+                      unit: "°C"
+                    - timestamp: "2026-01-02T10:05:00Z"
+                      sensor_id: "123e4567-e89b-12d3-a456-426614174000"
+                      metric: "temperature"
+                      value: 45.0
+                      unit: "°C"
+        '400':
+          description: Некорректные параметры
+      tags:
+        - Telemetry
+
+components:
+  schemas:
+    Sensor:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+          enum: [on, off]
+        last_seen:
+          type: string
+          format: date-time
+    SensorUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [on, off]
+    Command:
+      type: object
+      properties:
+        command:
+          type: string
+          enum: [on, off]
+        payload:
+          type: object
+    TelemetryRecord:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        sensor_id:
+          type: number
+        metric:
+          type: string
+        value:
+          type: number
+          format: double
+        unit:
+          type: string

@@ -1,0 +1,22 @@
+@startuml
+' !theme aws-orange
+' !theme bluegray
+' !theme cerulean
+!theme materia
+
+title "Sequence Diagram: Приём телеметрии от датчика"
+autonumber
+
+actor "Sensor" as Sensor
+participant "Telemetry API Monitor" as Monitor
+queue "Queue" as Kafka
+participant "Telemetry API Application" as TelemetryAPI
+database "NoSql Database" as DB
+
+Sensor -> Monitor ++: POST /telemetry {sensor_id, timestamp, data}
+Monitor -> Kafka --++: Публикует событие (JSON)
+Kafka --> TelemetryAPI ++: Сообщение (телеметрия)
+TelemetryAPI -> DB ++: INSERT (sensor_id, timestamp, data)
+DB --> TelemetryAPI --: Успешно сохранено
+TelemetryAPI --> Kafka --: Успешно обработано
+@enduml
